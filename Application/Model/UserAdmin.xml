@@ -1,0 +1,86 @@
+<admin model="User">
+	<title>User Management</title>
+	<actions>
+		<list>
+			<table-level>
+				<action>add</action>
+			</table-level>
+			<row-level>
+				<action>edit</action>
+				<action>delete</action>
+			</row-level>
+		</list>
+		<edit>
+			<row-level>
+				<action>save</action>
+				<action>saveadd</action>
+				<action>delete</action>
+			</row-level>
+		</edit>
+	</actions>
+	<list>
+		<title>Users</title>
+		<paginate rows="10" />
+		<fields>
+			<field name="id" alias="" />
+			<group title="Bilgiler">
+				<field name="username" alias="Kullanıcı Adı" decode="false" />
+				<field name="password" alias="Şifre">
+					<replace pattern="/(.)/ui" with="*" />
+					<apply function="strtoupper" />
+					<apply function="strtolower" />
+					<apply function="preg_replace">
+						<param>/(.)/ui</param>
+						<param>*</param>
+						<param>{$password}</param>
+					</apply>
+					<tooltip>
+						Lütfen bir kullanıcı adı giriniz.
+					</tooltip>
+					<parameters class="test" />
+				</field>
+			</group>
+			<field name="password_size" type="external" />
+		</fields>
+		<filter>
+			<field name="username" />
+		</filter>
+		<sorting>
+			<field name="id" />
+			<field name="username" order="ASC" />
+		</sorting>
+	</list>
+	<edit>
+		<title>Edit Users</title>
+		<field name="id" label="ID" type="none" />
+		<field name="username" label="Kullanıcı Adı" type="text" required="true">
+			<apply function="strtoupper" />
+			<required-message>
+				Bu alan zounludur.
+			</required-message>
+		</field>
+		<field name="password" label="Şifre" type="password" />
+		<field name="pictures" label="Resimler" type="select" disabled="true">
+			<options>
+				<date>
+					<format>Y-m-d</format>
+					<min-date>{$date}</min-date>
+					<max-date>{$date}</max-date>
+				</date>
+				<select>
+					<first-option />
+				</select>
+				<textarea>
+					<cols>10</cols>
+					<rows>5</rows>
+					<richtext>
+						<height>100</height>
+					</richtext>
+				</textarea>
+			</options>
+		</field>
+		<field name="color" alias="color">
+			<widget name="ColorPicker" />
+		</field>
+	</edit>
+</admin>

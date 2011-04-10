@@ -1,0 +1,22 @@
+Options -MultiViews
+
+SetEnv APPLICATION_ENV "development"
+
+AddDefaultCharset UTF-8
+
+# Server imzası yok.
+ServerSignature Off
+DirectoryIndex index.php
+
+# .svn|.git|.cvs Klasörlerini Kısıtlıyoruz
+RedirectMatch 404 /\\.(svn|git|cvs)(/|$)
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # .svn Klasörlerini Kısıtlıyoruz
+    RewriteRule ^(.*/)?\.(svn|git|cvs)/.* - [L,F]
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php?q=$1 [L,QSA]
+</IfModule>
